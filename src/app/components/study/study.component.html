@@ -1,0 +1,7 @@
+<div class="component">
+  <video controls [muted]="true" height="80%" #videoPlayer (ended)="onVideoEnded()">
+    <source src="{{videoLink}}" type="video/mp4">
+  </video>
+  <button mat-flat-button color="primary" (mousedown)="onSyncButtonPress()" (mouseup)="onSyncButtonRelease()">{{getButtonText()}}</button>
+</div>
+
