@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {MatButtonModule} from "@angular/material/button";
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
 import { EndComponent } from './components/end/end.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { EndComponent } from './components/end/end.component';
     PdfViewerModule,
     MatButtonModule,
     AppRoutingModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    HttpClientModule
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}}

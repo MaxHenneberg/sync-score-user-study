@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {DatabaseService} from "../database/database.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class StudyService {
   private currentStudyIdx = -1;
   private currentStudySyncScore: number[] = [];
 
-  constructor(private snackBar: MatSnackBar) {
+  constructor(private snackBar: MatSnackBar, private databaseService: DatabaseService) {
     this.resetStudy();
   }
 
