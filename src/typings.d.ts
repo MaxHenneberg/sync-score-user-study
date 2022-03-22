@@ -5,7 +5,7 @@ interface Process {
 }
 
 interface Env {
-  USERNAME: string
+  MY_TEST_VAR: string
 }
 
 interface GlobalEnvironment {

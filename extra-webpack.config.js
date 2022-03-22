@@ -4,7 +4,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        USERNAME: JSON.stringify(process.env.USERNAME)
+        MY_TEST_VAR: JSON.stringify(process.env.MY_TEST_VAR)
       }
     })
   ]
