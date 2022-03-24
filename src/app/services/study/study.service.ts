@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DatabaseService} from "../database/database.service";
+import {UserStudy} from "../database/entity/UserStudy";
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,7 @@ export class StudyService {
 
   endStudy(): void {
     console.log(this.currentStudySyncScore);
+    this.databaseService.storeStudy(new UserStudy(this.currentStudyIdx, this.currentStudySyncScore))
     this.resetStudy();
   }
 

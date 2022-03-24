@@ -1,0 +1,7 @@
+{
+  "/userstudy/": {
+    "target": "https://user-study-backend-new.vercel.app",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
