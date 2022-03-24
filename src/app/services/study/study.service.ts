@@ -55,7 +55,6 @@ export class StudyService {
   }
 
   endStudy(): void {
-    console.log(this.currentStudySyncScore);
     this.databaseService.storeStudy(new UserStudy(this.currentStudyIdx, this.currentStudySyncScore))
     this.resetStudy();
   }
