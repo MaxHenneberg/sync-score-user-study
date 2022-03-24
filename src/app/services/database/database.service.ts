@@ -18,6 +18,6 @@ export class DatabaseService {
 
   storeStudy(userStudy: UserStudy) {
     console.log(`Sending Post: ${JSON.stringify(userStudy)}`)
-    this.http.post('https://user-study-backend-new-9r0z10p1s-maxhenneberg.vercel.app/userstudy/store', userStudy).subscribe(result => console.log(result));
+    this.http.post('http://user-study-backend.us-east-1.elasticbeanstalk.com/userstudy/store', userStudy).subscribe(result => console.log(result));
   }
 }
