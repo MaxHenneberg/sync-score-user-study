@@ -7,24 +7,17 @@ import {UserStudy} from "./entity/UserStudy";
   providedIn: 'root'
 })
 export class DatabaseService {
-  backendUrl = 'https://user-study-backend-new.vercel.app'
-  path = '/userstudy'
-
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE, PUT'
+      'Content-Type': 'application/json'
     })
   };
 
   constructor(private http: HttpClient) {
   }
 
-  storePath = '/store'
-
   storeStudy(userStudy: UserStudy) {
     console.log(`Sending Post: ${JSON.stringify(userStudy)}`)
-    this.http.post('https://user-study-backend-new.vercel.app/userstudy/store', userStudy).subscribe(result => console.log(result));
+    this.http.post('https://user-study-backend-new-9r0z10p1s-maxhenneberg.vercel.app/userstudy/store', userStudy).subscribe(result => console.log(result));
   }
 }
