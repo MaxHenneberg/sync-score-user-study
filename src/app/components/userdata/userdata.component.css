@@ -1,0 +1,9 @@
+@import "../../app.component.css";
+
+.form-field-wide{
+  width: 100%;
+}
+
+.user-form{
+  width: 50vw;
+}

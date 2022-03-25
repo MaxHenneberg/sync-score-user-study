@@ -1,0 +1,51 @@
+<div class="component">
+  <h1>Please fill out the Form.</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="user-form">
+    <h3>How old are you?</h3>
+    <mat-form-field appearance="standard">
+      <mat-label>How old are you?</mat-label>
+      <input matInput maxlength="2" type="number" placeholder="Age" formControlName="age" #ageInput>
+      <mat-error>Name is required</mat-error>
+    </mat-form-field>
+
+    <h3>What is your gender identity?</h3>
+    <mat-form-field appearance="standard">
+      <mat-select formControlName="gender" placeholder="Gender">
+        <mat-label>Gender</mat-label>
+        <mat-option *ngFor="let option of gender" [value]="option">{{option}}</mat-option>
+      </mat-select>
+      <mat-error>Gender is required</mat-error>
+    </mat-form-field>
+
+    <h3>Which country you are currently living in?</h3>
+    <mat-form-field appearance="standard">
+      <input matInput type="text" placeholder="Country" [matAutocomplete]="countryLivingAuto" formControlName="countryLiving" (input)="onCountryLivingChange($event)" #countryLiving>
+      <mat-autocomplete #countryLivingAuto="matAutocomplete">
+        <mat-option *ngFor="let option of countryLivingList" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error>Country is required</mat-error>
+    </mat-form-field>
+
+    <h3>Where did you grow up?</h3>
+    <mat-form-field appearance="standard">
+      <input matInput type="text" placeholder="Country" [matAutocomplete]="countryGrownUpAuto" formControlName="countryGrownUp" (input)="onCountryGrownUpChange($event)" #countryGrownUp>
+      <mat-autocomplete #countryGrownUpAuto="matAutocomplete">
+        <mat-option *ngFor="let option of countryGrownUpList" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error>Country is required</mat-error>
+    </mat-form-field>
+
+    <h3>What is the highest level of education you have completed?</h3>
+    <mat-form-field appearance="standard" class="form-field-wide">
+      <mat-select formControlName="education" placeholder="Education">
+        <mat-option *ngFor="let option of education" [value]="option" [matTooltip]="option">{{option}}</mat-option>
+      </mat-select>
+      <mat-error>Education is required</mat-error>
+    </mat-form-field>
+    <button mat-flat-button color="primary" type="submit" (click)="onSubmit()">Continue</button>
+  </form>
+</div>

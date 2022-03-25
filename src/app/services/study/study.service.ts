@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DatabaseService} from "../database/database.service";
-import {UserStudy} from "../database/entity/UserStudy";
+import {UserStudyTO} from "../database/entity/UserStudyTO";
+import {RunIdService} from "../runid/run-id.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class StudyService {
   private currentStudyIdx = -1;
   private currentStudySyncScore: number[] = [];
 
-  constructor(private snackBar: MatSnackBar, private databaseService: DatabaseService) {
+  constructor(private snackBar: MatSnackBar, private databaseService: DatabaseService, private runIdService: RunIdService) {
     this.resetStudy();
   }
 
@@ -45,17 +46,17 @@ export class StudyService {
     }
   }
 
-  showSnackBar(startFrame: number, endFrame:number) {
+  showSnackBar(startFrame: number, endFrame: number) {
     const message = `Segment Registert [${startFrame}:${endFrame}]`;
     this.snackBar.open(message, '', {duration: 2000, horizontalPosition: 'right'});
   }
 
-  toFrames(timeStamp: number){
+  toFrames(timeStamp: number) {
     return Math.floor(timeStamp * this.frameRate)
   }
 
   endStudy(): void {
-    this.databaseService.storeStudy(new UserStudy(this.currentStudyIdx, this.currentStudySyncScore))
+    this.databaseService.storeStudy(new UserStudyTO(this.runIdService.runId, this.currentStudyIdx, this.currentStudySyncScore))
     this.resetStudy();
   }
 

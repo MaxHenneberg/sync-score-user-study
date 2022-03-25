@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {StudyService} from "../../services/study/study.service";
 import {Router} from "@angular/router";
+import {AuthServiceService} from "../../services/auth/auth-service.service";
 
 @Component({
   selector: 'app-study',
@@ -19,7 +20,7 @@ export class StudyComponent implements OnInit {
   private startTimeStamp = -1;
   private endTimeStamp = -1;
 
-  constructor(private studyService: StudyService, private router: Router) {
+  constructor(private studyService: StudyService, private router: Router, private authService: AuthServiceService) {
     this.studyService.startStudy();
     this.videoLink = this.studyService.getStudyVideo();
   }
@@ -69,6 +70,7 @@ export class StudyComponent implements OnInit {
   }
 
   onVideoEnded(): void {
+    this.authService.setStudyCheck();
     this.studyService.endStudy();
     this.router.navigate(['/end'])
   }
