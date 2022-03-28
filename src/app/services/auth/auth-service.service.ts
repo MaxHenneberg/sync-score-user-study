@@ -56,15 +56,15 @@ export class AuthServiceService implements CanActivate {
   }
 
   canViewExplanation(): boolean {
-    return this.consentCheck && this.userDataCheck;
+    return this.userDataCheck;
   }
 
   canViewUserStudy(): boolean {
-    return this.consentCheck && this.userDataCheck && this.explanationCheck;
+    return this.explanationCheck;
   }
 
   canViewEnd(): boolean {
-    return this.consentCheck && this.userDataCheck && this.explanationCheck && this.studyCheck;
+    return this.studyCheck;
   }
 
   handleAccessDenied(): void {

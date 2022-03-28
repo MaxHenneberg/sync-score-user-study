@@ -6,6 +6,6 @@ export class UserStudyTO {
   constructor(runId: string, study: number, syncScore: number[]) {
     this.runId = runId;
     this.study = study;
-    this.syncScore = syncScore.join(',');
+    this.syncScore = syncScore.join(' ');
   }
 }

@@ -4,18 +4,23 @@
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  height: 90vh;
+  overflow: auto;
 }
 
 .component {
   height: 90vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
+  overflow: auto;
 }
 
 h2{
   width: fit-content;
+}
+
+.spacer {
+  flex: 1 1 auto;
 }

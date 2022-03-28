@@ -18,7 +18,7 @@
     </mat-form-field>
 
     <h3>Which country you are currently living in?</h3>
-    <mat-form-field appearance="standard">
+    <mat-form-field appearance="standard" class="form-field-medium">
       <input matInput type="text" placeholder="Country" [matAutocomplete]="countryLivingAuto" formControlName="countryLiving" (input)="onCountryLivingChange($event)" #countryLiving>
       <mat-autocomplete #countryLivingAuto="matAutocomplete">
         <mat-option *ngFor="let option of countryLivingList" [value]="option">
@@ -29,7 +29,7 @@
     </mat-form-field>
 
     <h3>Where did you grow up?</h3>
-    <mat-form-field appearance="standard">
+    <mat-form-field appearance="standard" class="form-field-medium">
       <input matInput type="text" placeholder="Country" [matAutocomplete]="countryGrownUpAuto" formControlName="countryGrownUp" (input)="onCountryGrownUpChange($event)" #countryGrownUp>
       <mat-autocomplete #countryGrownUpAuto="matAutocomplete">
         <mat-option *ngFor="let option of countryGrownUpList" [value]="option">

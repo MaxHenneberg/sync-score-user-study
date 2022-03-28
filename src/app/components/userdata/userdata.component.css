@@ -4,6 +4,11 @@
   width: 100%;
 }
 
+.form-field-medium{
+  width: 50%;
+}
+
+
 .user-form{
   width: 50vw;
 }

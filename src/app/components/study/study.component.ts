@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {StudyService} from "../../services/study/study.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AuthServiceService} from "../../services/auth/auth-service.service";
 
 @Component({
@@ -14,18 +14,22 @@ export class StudyComponent implements OnInit {
   videoPlayer: ElementRef;
   private videoPlaying = false;
 
-  videoLink: string;
-
+  videoLink = '';
 
   private startTimeStamp = -1;
   private endTimeStamp = -1;
+  private _videoLoaded = false;
 
-  constructor(private studyService: StudyService, private router: Router, private authService: AuthServiceService) {
-    this.studyService.startStudy();
-    this.videoLink = this.studyService.getStudyVideo();
+  constructor(private studyService: StudyService, private authService: AuthServiceService) {
+    this.studyService.getVideoLinkObs().subscribe(link => {
+      console.log(`Got Link: ${JSON.stringify(link)}`);
+      this.videoLink = link;
+      this.videoPlayer.nativeElement.load();
+    });
   }
 
   ngOnInit(): void {
+    this.studyService.startStudy();
   }
 
   onSyncButtonPress(): void {
@@ -70,9 +74,11 @@ export class StudyComponent implements OnInit {
   }
 
   onVideoEnded(): void {
+    this.onSyncButtonRelease();
     this.authService.setStudyCheck();
-    this.studyService.endStudy();
-    this.router.navigate(['/end'])
+    this.videoPlaying = false;
+    this._videoLoaded = false;
+    this.studyService.endStudy(false);
   }
 
   startVideo(): void {
@@ -92,4 +98,28 @@ export class StudyComponent implements OnInit {
     }
   }
 
+  onDataLoaded(): void {
+    this._videoLoaded = true;
+  }
+
+
+  get videoLoaded(): boolean {
+    return this._videoLoaded;
+  }
+
+  getVideoProgress(): string {
+    if (this.videoPlaying) {
+      const currentFrame = this.studyService.toFrames(this.videoPlayer.nativeElement.currentTime);
+      const framesForStudy = this.studyService.getFramesForCurrentStudy();
+      if (currentFrame > 0) {
+        const progress = Math.floor(100 * (this.studyService.toFrames(this.videoPlayer.nativeElement.currentTime) / this.studyService.getFramesForCurrentStudy()));
+        return `Video Progress: ${progress} %`;
+      }
+    }
+    return 'Video Progress: 0 %';
+  }
+
+  getHeadLineText(): string{
+    return `Study Progress ${this.studyService.getStudyProgressText()}`;
+  }
 }

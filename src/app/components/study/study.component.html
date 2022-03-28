@@ -1,7 +1,9 @@
 <div class="component">
-  <video controls [muted]="true" height="80%" #videoPlayer (ended)="onVideoEnded()">
-    <source src="{{videoLink}}" type="video/mp4">
-  </video>
-  <button mat-flat-button color="primary" (mousedown)="onSyncButtonPress()" (mouseup)="onSyncButtonRelease()">{{getButtonText()}}</button>
+  <h2>{{this.getHeadLineText()}}</h2>
+    <video [muted]="true" height="80%" #videoPlayer (ended)="onVideoEnded()" [poster]="'/assets/image/StudyThumbnail.png'" (loadeddata)="onDataLoaded()" (timeupdate)="getVideoProgress()">
+      <source src="{{videoLink}}" type="video/mp4">
+    </video>
+    <span>{{getVideoProgress()}}</span>
+  <button mat-flat-button color="primary" (mousedown)="onSyncButtonPress()" (mouseup)="onSyncButtonRelease()" [disabled]="!videoLoaded">{{getButtonText()}}</button>
 </div>
 
