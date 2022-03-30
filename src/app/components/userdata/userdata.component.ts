@@ -341,10 +341,8 @@ export class UserdataComponent implements OnInit {
   /** A hero's name can't match the given regular expression */
   private countryValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      // console.log(this.form?.get('countryLiving')?.errors);
-      // console.log(control.value);
       const included = this.country_list.includes(control.value);
-      return included ? null : {notInCountryList: true};
+      return (included || (control.value == null || control.value == '')) ? null : {notInCountryList: true};
     };
   }
 
