@@ -25,7 +25,8 @@
           {{option}}
         </mat-option>
       </mat-autocomplete>
-      <mat-error>Country is required</mat-error>
+      <mat-error *ngIf="this.form?.get('countryLiving')?.errors?.['notInCountryList']">Not a valid Country</mat-error>
+      <mat-error *ngIf="this.form?.get('countryLiving')?.errors?.['required']">Country is required</mat-error>
     </mat-form-field>
 
     <h3>Where did you grow up?</h3>
@@ -36,7 +37,8 @@
           {{option}}
         </mat-option>
       </mat-autocomplete>
-      <mat-error>Country is required</mat-error>
+      <mat-error *ngIf="this.form?.get('countryGrownUp')?.errors?.['notInCountryList']">Not a valid Country</mat-error>
+      <mat-error *ngIf="this.form?.get('countryGrownUp')?.errors?.['required']">Country is required</mat-error>
     </mat-form-field>
 
     <h3>What is the highest level of education you have completed?</h3>

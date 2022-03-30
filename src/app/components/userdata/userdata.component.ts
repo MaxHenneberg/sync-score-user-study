@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {UserData} from "./entity/UserData";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {map, Observable, of, startWith} from "rxjs";
 import {Router} from "@angular/router";
 import {AuthServiceService} from "../../services/auth/auth-service.service";
@@ -296,10 +296,10 @@ export class UserdataComponent implements OnInit {
   constructor(private fb: FormBuilder, private router: Router, private authService: AuthServiceService, private databaseService: DatabaseService, private runIdService: RunIdService) {
 
     this.form = this.fb.group({
-      age: [null, [Validators.required]],
+      age: [null, [Validators.required, Validators.min(0), Validators.max(120)]],
       gender: [null, Validators.required],
-      countryLiving: [null, Validators.required],
-      countryGrownUp: [null, Validators.required],
+      countryLiving: [null, [Validators.required, this.countryValidator()]],
+      countryGrownUp: [null, [Validators.required,this.countryValidator()]],
       education: [null, Validators.required]
     });
     this.countryLivingList = this.country_list;
@@ -336,6 +336,16 @@ export class UserdataComponent implements OnInit {
   public onCountryGrownUpChange(e: any): void {
     const filterVal = this.form.controls['countryGrownUp'].value;
     this.countryGrownUpList = (this.country_list.filter(c => c.startsWith(filterVal)))
+  }
+
+  /** A hero's name can't match the given regular expression */
+  private countryValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      // console.log(this.form?.get('countryLiving')?.errors);
+      // console.log(control.value);
+      const included = this.country_list.includes(control.value);
+      return included ? null : {notInCountryList: true};
+    };
   }
 
 }
