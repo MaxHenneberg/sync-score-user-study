@@ -1,6 +1,11 @@
 @import "../../app.component.css";
 
-.video-container{
+.video-container {
   height: fit-content;
   width: fit-content;
+}
+
+.button-big {
+  width: 18em;
+  height: 6em;
 }

@@ -4,6 +4,6 @@
       <source src="{{videoLink}}" type="video/mp4">
     </video>
     <span>{{getVideoProgress()}}</span>
-  <button mat-flat-button color="primary" (mousedown)="onSyncButtonPress()" (mouseup)="onSyncButtonRelease()" [disabled]="!videoLoaded">{{getButtonText()}}</button>
+  <button mat-flat-button class="button-big" color="primary" (mousedown)="onSyncButtonPress()" (mouseup)="onSyncButtonRelease()" [disabled]="!videoLoaded || keyDownBlocked">{{getButtonText()}}</button>
 </div>
 

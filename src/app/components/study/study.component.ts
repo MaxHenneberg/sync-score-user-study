@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {StudyService} from "../../services/study/study.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthServiceService} from "../../services/auth/auth-service.service";
+import {GlobalKeyboardService} from "../../services/global-keyboard/global-keyboard.service";
 
 @Component({
   selector: 'app-study',
@@ -13,6 +14,7 @@ export class StudyComponent implements OnInit {
     // @ts-ignore
   videoPlayer: ElementRef;
   private videoPlaying = false;
+  private _keyDownBlocked = false;
 
   videoLink = '';
 
@@ -20,12 +22,37 @@ export class StudyComponent implements OnInit {
   private endTimeStamp = -1;
   private _videoLoaded = false;
 
-  constructor(private studyService: StudyService, private authService: AuthServiceService) {
+  constructor(private studyService: StudyService,
+              private authService: AuthServiceService,
+              private globalKeyBoardService: GlobalKeyboardService) {
     this.studyService.getVideoLinkObs().subscribe(link => {
       console.log(`Got Link: ${JSON.stringify(link)}`);
       this.videoLink = link;
       this.videoPlayer.nativeElement.load();
     });
+
+    this.globalKeyBoardService.keyBoardDownObs.subscribe(key => {
+      this.onKeyDown(key);
+    });
+    this.globalKeyBoardService.keyBoardUpObs.subscribe(key => {
+      this.onKeyUp(key);
+    });
+  }
+
+  onKeyDown(key: string): void {
+    if (key == 'Space' && !this._keyDownBlocked) {
+      this._keyDownBlocked = true;
+      console.log('Down');
+      this.onSegmentStart();
+    }
+  }
+
+  onKeyUp(key: string): void {
+    if (key == 'Space') {
+      this.onSegmentEnd();
+      console.log('Up');
+      this._keyDownBlocked = false;
+    }
   }
 
   ngOnInit(): void {
@@ -33,6 +60,10 @@ export class StudyComponent implements OnInit {
   }
 
   onSyncButtonPress(): void {
+    this.onSegmentStart();
+  }
+
+  onSegmentStart(): void {
     if (!this.isVideoPlaying()) {
       this.startVideo();
     } else {
@@ -42,6 +73,10 @@ export class StudyComponent implements OnInit {
   }
 
   onSyncButtonRelease(): void {
+    this.onSegmentEnd();
+  }
+
+  onSegmentEnd(): void {
     if (this.isVideoPlaying()) {
       const timeStamp = this.videoPlayer.nativeElement.currentTime;
       this.registerSegmentEnd(timeStamp)
@@ -74,7 +109,7 @@ export class StudyComponent implements OnInit {
   }
 
   onVideoEnded(): void {
-    this.onSyncButtonRelease();
+    this.onSegmentEnd();
     this.authService.setStudyCheck();
     this.videoPlaying = false;
     this._videoLoaded = false;
@@ -94,7 +129,11 @@ export class StudyComponent implements OnInit {
     if (!this.isVideoPlaying()) {
       return "Start";
     } else {
-      return "In Sync";
+      if(this.keyDownBlocked){
+        return "Registering Segment";
+      }else{
+        return "In Sync";
+      }
     }
   }
 
@@ -119,7 +158,12 @@ export class StudyComponent implements OnInit {
     return 'Video Progress: 0 %';
   }
 
-  getHeadLineText(): string{
+  getHeadLineText(): string {
     return `Study Progress ${this.studyService.getStudyProgressText()}`;
+  }
+
+
+  get keyDownBlocked(): boolean {
+    return this._keyDownBlocked;
   }
 }
